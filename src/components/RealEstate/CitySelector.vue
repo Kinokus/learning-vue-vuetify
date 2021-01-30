@@ -1,19 +1,22 @@
 <template>
-  <div class="city-selector">
+  <v-main class="city-selector">
     <label>
-      <select v-model="selected">
+      <select
+          v-model="selectedCity"
+          @change="citySelect()"
+      >
         <option disabled value="">Please select one</option>
         <option
             v-for="city in cities"
-            v-bind:key="city.cityId"
+            v-bind:key="city.cityId + city.cityName"
             v-bind:value="city">
           {{ city.cityName }}
         </option>
       </select>
     </label>
     <span> | </span>
-    <span>Selected: {{ selected.cityName }}</span>
-  </div>
+    <span v-if="selectedCity">Selected: {{ selectedCity.cityName }}</span>
+  </v-main>
 </template>
 
 <script>
@@ -24,18 +27,24 @@ export default {
   name: 'CitySelector',
   data() {
     return {
-      selected: '',
-      // cities: [],
+      selectedCity: null,
       errors: [],
     };
   },
-  async created() {
+  async beforeCreate() {
     await this.$store.dispatch('fetchCities');
   },
 
   // todo or this one
   computed:
       mapState(['cities']),
+
+  methods: {
+    async citySelect() {
+      console.log(this.selectedCity.cityName);
+      await this.$store.dispatch('fetchHoods', { cityId: this.selectedCity.cityId });
+    },
+  },
 
   // todo or this one
   // computed:

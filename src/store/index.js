@@ -30,7 +30,15 @@ export default new Vuex.Store({
         return;
       }
 
-      state.cities = payload.hoods;
+      state.hoods = payload.hoods;
+    },
+    setApartments(state, payload) {
+      if (payload.error) {
+        state.errors.push(payload.error);
+        return;
+      }
+
+      state.apartments = payload.apartments;
     },
   },
   actions: {
@@ -45,9 +53,35 @@ export default new Vuex.Store({
         commit('setCities', { error: 'fetch failed' });
       }
     },
+    fetchHoods({ commit }, payload) {
+      try {
+        //
+        axios.get(`https://yad2.ngrok.io/hood/city/${payload.cityId}`)
+          .then((response) => {
+            commit('setHoods', { hoods: response.data });
+          });
+      } catch (e) {
+        // todo error codes enum
+        commit('setHoods', { error: 'fetch failed' });
+      }
+    },
+    fetchApartments({ commit }, payload) {
+      try {
+        //
+        axios.get(`https://yad2.ngrok.io/apartment/hood/${payload.hoodId}`)
+          .then((response) => {
+            commit('setApartments', { apartments: response.data });
+          });
+      } catch (e) {
+        // todo error codes enum
+        commit('setApartments', { error: 'fetch failed' });
+      }
+    },
   },
   getters: {
     cities: (state) => state.cities,
+    hoods: (state) => state.hoods,
+    apartments: (state) => state.apartments,
   },
   modules: {},
 });
