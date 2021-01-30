@@ -7,7 +7,8 @@
 
 <script>
 
-import NavHeader from '@/components/NavHeader.vue';
+// eslint-disable-next-line import/extensions
+import NavHeader from '@/components/NavHeader';
 
 export default {
   name: 'Home',

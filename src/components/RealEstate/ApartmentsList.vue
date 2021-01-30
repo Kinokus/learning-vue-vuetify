@@ -7,9 +7,9 @@
     >
 
       <template v-slot:item.price="{ item }">
-        <span :class="getColorClass(item)" class="pa-2" >
+        <div :class="getColorClass(item)" class="pa-10" >
           {{ item.price }}
-        </span>
+        </div>
 <!--        <v-chip-->
 <!--            :class="getColorClass(item)"-->
 <!--            light-->
