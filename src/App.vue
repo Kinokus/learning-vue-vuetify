@@ -1,32 +1,57 @@
 <template>
-  <div id="app">
-    <NavHeader></NavHeader>
-    <router-view/>
-  </div>
+  <v-app>
+    <v-app-bar
+      app
+      color="secondary"
+      dark
+    >
+      <div class="d-flex align-center">
+        <router-link
+            v-for="(route, index) in routes"
+            v-bind:to="route.path.length ? route.path : '/'"
+            v-bind:key="route.path"
+            v-bind:tooltip="index"
+        >
+          {{ route.name }}
+        </router-link>
+      </div>
+
+      <v-spacer></v-spacer>
+
+      <v-btn
+        href="https://github.com/vuetifyjs/vuetify/releases/latest"
+        target="_blank"
+        text
+      >
+        <span class="mr-2">Latest Release</span>
+        <v-icon>mdi-open-in-new</v-icon>
+      </v-btn>
+    </v-app-bar>
+
+    <v-main>
+      <router-view></router-view>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-
-// eslint-disable-next-line import/extensions
-import NavHeader from '@/components/NavHeader';
+import router from '@/router/index';
+// import HelloWorld from './components/HelloWorld';
 
 export default {
-  name: 'Home',
+  name: 'App',
+
   components: {
-    NavHeader,
+    // HelloWorld,
   },
+
+  created() {
+    this.routes = router.getRoutes();
+    console.log(this.routes);
+  },
+
+  data: () => ({
+    //
+  }),
 };
-
 </script>
-
-<style lang="scss">
-@import "../node_modules/vuetify/dist/vuetify.css";
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-</style>

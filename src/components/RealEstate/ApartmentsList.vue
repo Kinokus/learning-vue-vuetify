@@ -3,19 +3,14 @@
     <v-data-table
         :headers="headers"
         :items="apartments"
-        class="elevation-1"
     >
-
       <template v-slot:item.price="{ item }">
-        <div :class="getColorClass(item)" class="pa-10" >
+        <v-chip
+            :class="getColorClass(item)"
+            light
+        >
           {{ item.price }}
-        </div>
-<!--        <v-chip-->
-<!--            :class="getColorClass(item)"-->
-<!--            light-->
-<!--        >-->
-<!--          {{ item.price }}-->
-<!--        </v-chip>-->
+        </v-chip>
       </template>
 
     </v-data-table>
@@ -50,6 +45,18 @@ export default {
           sortable: 'true',
           value: 'price',
         },
+        {
+          text: 'Address',
+          align: 'start',
+          sortable: 'true',
+          value: 'street',
+        },
+        {
+          text: '',
+          align: 'start',
+          sortable: 'true',
+          value: 'home',
+        },
       ],
     };
   },
@@ -60,7 +67,7 @@ export default {
     getColorClass(apartment) {
       // return apartment.headers.
       // console.log(apartment);
-      const color = apartment.merchant ? 'red-chip' : 'green-chip';
+      const color = apartment.merchant ? 'red' : 'green';
       console.log(color);
       return color;
     },
@@ -72,8 +79,4 @@ export default {
 
 <style scoped>
 @import "../../assets/customColors.scss";
-
-.red-chip {
-  background-color: red;
-}
 </style>

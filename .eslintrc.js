@@ -14,6 +14,7 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'import/extensions': [0],
+    'import/no-unresolved': [0],
     // 'import/extensions': ['error', 'ignorePackages', {
     //   'vue': 'never'
     // }]
