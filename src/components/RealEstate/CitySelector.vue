@@ -1,5 +1,5 @@
 <template>
-  <v-main class="city-selector">
+  <div class="city-selector pt-1 ma-4 mb-0">
     <label>
       <select
           v-model="selectedCity"
@@ -16,7 +16,7 @@
     </label>
     <span> | </span>
     <span v-if="selectedCity">Selected: {{ selectedCity.cityName }}</span>
-  </v-main>
+  </div>
 </template>
 
 <script>
@@ -36,13 +36,28 @@ export default {
   },
 
   // todo or this one
-  computed:
-      mapState(['cities']),
+  // computed: {
+  //
+  //   //...mapState(['cities']),
+  //
+  // }
+  computed: mapState({
+    cities: (state) => state.cities,
+    // selectedCityLocal: {
+    //   get() {
+    //     return this.$store.getters.selectedCity();
+    //   },
+    //
+    //   set(city) {
+    //     this.$store.commit('setSelectedCity', { city });
+    //   },
+    // },
+  }),
 
   methods: {
     async citySelect() {
-      console.log(this.selectedCity.cityName);
       await this.$store.dispatch('fetchHoods', { cityId: this.selectedCity.cityId });
+      await this.$store.commit('setSelectedCity', { city: this.selectedCity });
     },
   },
 

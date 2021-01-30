@@ -23,7 +23,6 @@ export default new Vuex.Store({
       }
       state.cities = payload.cities;
     },
-
     setHoods(state, payload) {
       if (payload.error) {
         state.errors.push(payload.error);
@@ -39,6 +38,21 @@ export default new Vuex.Store({
       }
 
       state.apartments = payload.apartments;
+    },
+
+    setSelectedCity(state, payload) {
+      if (payload.error) {
+        state.errors.push(payload.error);
+        return;
+      }
+      state.selectedCity = payload.selectedCity;
+    },
+    setSelectedHood(state, payload) {
+      if (payload.error) {
+        state.errors.push(payload.error);
+        return;
+      }
+      state.selectedCity = payload.selectedCity;
     },
   },
   actions: {
@@ -77,11 +91,14 @@ export default new Vuex.Store({
         commit('setApartments', { error: 'fetch failed' });
       }
     },
+
   },
   getters: {
     cities: (state) => state.cities,
     hoods: (state) => state.hoods,
     apartments: (state) => state.apartments,
+    selectedCity: (state) => state.selectedCity,
+    selectedHood: (state) => state.selectedHood,
   },
-  modules: {},
+
 });

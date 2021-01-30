@@ -1,20 +1,35 @@
 <template>
-  <v-main class="apartments-list">
-    <v-data-table
-        :headers="headers"
-        :items="apartments"
-    >
-      <template v-slot:item.price="{ item }">
-        <v-chip
-            :class="getColorClass(item)"
-            light
-        >
-          {{ item.price }}
-        </v-chip>
-      </template>
+  <div class="apartments-list pt-0">
+    <v-container>
+      <v-data-table
+          :headers="headers"
+          :items="apartments"
+      >
+        <template v-slot:item.price="{ item }">
+          <v-chip
+              :class="getColorClass(item)"
+              light
+          >
+            {{ item.price }}
+          </v-chip>
+        </template>
+        <template v-slot:item.street="{ item }">
+          <div class="d-flex">
+            <span>{{ item.street }}</span>
+            <span class="ms-2 me-2">{{ item.home }}</span>
+            <a
+                class="ms-2 flex-grow-1 text-right"
+                v-if="item.coordinates"
+                v-bind:href="getLink(item)"
+                target="_blank">
+              map
+            </a>
+          </div>
+        </template>
 
-    </v-data-table>
-  </v-main>
+      </v-data-table>
+    </v-container>
+  </div>
 </template>
 
 <script>
@@ -27,18 +42,6 @@ export default {
     return {
       errors: [],
       headers: [
-        // {
-        //   text: 'link_token',
-        //   align: 'start',
-        //   sortable: 'true',
-        //   value: 'link_token',
-        // },
-        // {
-        //   text: 'City',
-        //   align: 'start',
-        //   sortable: 'true',
-        //   value: 'city',
-        // },
         {
           text: 'Price',
           align: 'start',
@@ -52,11 +55,17 @@ export default {
           value: 'street',
         },
         {
-          text: '',
+          text: 'Rooms',
           align: 'start',
           sortable: 'true',
-          value: 'home',
+          value: 'rooms',
         },
+        // {
+        //   text: '',
+        //   align: 'start',
+        //   sortable: 'true',
+        //   value: 'home',
+        // },
       ],
     };
   },
@@ -70,6 +79,9 @@ export default {
       const color = apartment.merchant ? 'red' : 'green';
       console.log(color);
       return color;
+    },
+    getLink(apartment) {
+      return `https://www.google.com/maps/place/${apartment.coordinates.latitude},${apartment.coordinates.longitude}`;
     },
   },
 

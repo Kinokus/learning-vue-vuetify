@@ -1,5 +1,6 @@
 <template>
-  <v-main class="hood-selector">
+  <div class="hood-selector pt-1 ma-4 mb-0">
+
     <label>
       <select
           v-model="selectedHood"
@@ -17,7 +18,7 @@
     <span> | </span>
     <span v-if="selectedHood">Selected: {{ selectedHood.hoodName }}</span>
 
-  </v-main>
+  </div>
 </template>
 
 <script>
