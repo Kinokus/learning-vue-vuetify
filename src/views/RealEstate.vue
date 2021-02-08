@@ -2,9 +2,7 @@
   <div class="real-estate ">
     <v-row>
       <v-col><city-selector></city-selector></v-col>
-      <v-spacer></v-spacer>
       <v-col><hood-selector></hood-selector></v-col>
-      <v-spacer></v-spacer>
       <v-col><Filters></Filters></v-col>
     </v-row>
     <v-row class="pa-0 ma-0">
