@@ -1,6 +1,10 @@
 <template>
   <div class="filters">
-    <v-input v-model="a"></v-input>
+    <label>
+      Max price
+      <input v-model="maxPrice">
+    </label>
+    <button v-on:click="filterApartments()">Filter</button>
   </div>
 </template>
 
@@ -8,13 +12,21 @@
 export default {
   name: 'Filters',
   computed: {
-    a: {
+    maxPrice: {
       get() {
-        return this.$store.state.a;
+        return this.$store.state.maxPrice;
       },
       set(value) {
-        this.$store.commit('updateA', value);
+        this.$store.commit('setMaxPrice', { maxPrice: value });
       },
+    },
+  },
+  methods: {
+    async filterApartments() {
+      await this.$store.dispatch(
+        'fetchApartments',
+        { hoodId: this.$store.state.selectedHood.hoodId },
+      );
     },
   },
 };

@@ -47,14 +47,15 @@ export default new Vuex.Store({
         state.errors.push(payload.error);
         return;
       }
-      state.selectedCity = payload.selectedCity;
+      state.selectedCity = payload.city;
     },
     setSelectedHood(state, payload) {
       if (payload.error) {
         state.errors.push(payload.error);
         return;
       }
-      state.selectedCity = payload.selectedCity;
+      // state.selectedCity = payload.selectedCity;
+      state.selectedHood = payload.hood;
     },
     setMaxPrice(state, payload) {
       if (payload.error) {
