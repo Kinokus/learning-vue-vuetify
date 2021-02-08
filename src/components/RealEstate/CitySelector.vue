@@ -1,5 +1,5 @@
 <template>
-  <div class="city-selector pt-1 ma-4 mb-0">
+  <div class="city-selector pa-2 ma-4 mb-0 rounded-xl">
     <label>
       <select
           v-model="selectedCity"
@@ -14,8 +14,8 @@
         </option>
       </select>
     </label>
-    <span> | </span>
-    <span v-if="selectedCity">Selected: {{ selectedCity.cityName }}</span>
+    <!--    <span> | </span>-->
+    <!--    <span v-if="selectedCity">Selected: {{ selectedCity.cityName }}</span>-->
   </div>
 </template>
 
@@ -56,8 +56,10 @@ export default {
 
   methods: {
     async citySelect() {
+      await this.$store.commit('setSelectedHood', { hood: null });
       await this.$store.dispatch('fetchHoods', { cityId: this.selectedCity.cityId });
       await this.$store.commit('setSelectedCity', { city: this.selectedCity });
+      await this.$store.commit('setApartments', { apartments: [] });
     },
   },
 
@@ -67,6 +69,6 @@ export default {
 };
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+@import "../../assets/base-styles.scss";
 </style>

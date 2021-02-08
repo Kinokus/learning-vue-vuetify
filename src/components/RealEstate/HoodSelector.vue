@@ -1,22 +1,23 @@
 <template>
-  <div class="hood-selector pt-1 ma-4 mb-0">
+  <div class="hood-selector pa-2 ma-4 mb-0 rounded-xl flex">
 
-    <label>
+    <label class="flex flex-grow-1">
       <select
+          class="flex-grow-1"
           v-model="selectedHood"
           @change="hoodSelect()"
       >
         <option disabled value="">Please select one</option>
         <option
-            v-for="hood in hoods"
-            v-bind:key="hood.hoodId + hood.hoodName"
+            v-for="(hood, index) in hoods"
+            v-bind:key="hood.hoodId + hood.hoodName + index"
             v-bind:value="hood">
-          {{ hood.hoodName }}
+          {{ hood.hoodName }} [{{ hood.hoodId }}]
         </option>
       </select>
     </label>
-    <span> | </span>
-    <span v-if="selectedHood">Selected: {{ selectedHood.hoodName }}</span>
+    <!--    <span> | </span>-->
+    <!--    <span v-if="selectedHood">Selected: {{ selectedHood.hoodName }}</span>-->
 
   </div>
 </template>
@@ -38,6 +39,7 @@ export default {
     async hoodSelect() {
       console.log(this.selectedHood);
       await this.$store.dispatch('fetchApartments', { hoodId: this.selectedHood.hoodId });
+      await this.$store.commit('setSelectedHood', { hood: this.selectedHood });
     },
   },
 
@@ -45,6 +47,6 @@ export default {
 };
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+@import "../../assets/base-styles.scss";
 </style>
