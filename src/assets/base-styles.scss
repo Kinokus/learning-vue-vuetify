@@ -1,0 +1,14 @@
+*:focus {
+  outline: none;
+}
+
+label {
+  width: 100%;
+  select {
+    width: 100%;
+  }
+}
+
+[class*="-selector"] {
+  border: 1px solid gray;
+}
