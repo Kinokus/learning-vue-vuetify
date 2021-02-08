@@ -24,6 +24,11 @@ export default {
     HoodSelector,
     CitySelector,
   },
+  async beforeCreate() {
+    await this.$store.commit('setApartments', { apartments: [] });
+    await this.$store.commit('setHoods', { hoods: [] });
+  },
+
 };
 </script>
 

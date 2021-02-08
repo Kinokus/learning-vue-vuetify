@@ -12,6 +12,8 @@ export default new Vuex.Store({
     hoods: [],
     apartments: [],
 
+    maxPrice: null,
+
     selectedCity: null,
     selectedHood: null,
   },
@@ -54,6 +56,14 @@ export default new Vuex.Store({
       }
       state.selectedCity = payload.selectedCity;
     },
+    setMaxPrice(state, payload) {
+      if (payload.error) {
+        state.errors.push(payload.error);
+        return;
+      }
+      state.maxPrice = payload.maxPrice;
+    },
+
   },
   actions: {
     fetchCities({ commit }) {
@@ -79,15 +89,22 @@ export default new Vuex.Store({
         commit('setHoods', { error: 'fetch failed' });
       }
     },
-    fetchApartments({ commit }, payload) {
+    fetchApartments({
+      commit,
+      getters,
+    }, payload) {
       try {
-        //
-        axios.get(`https://yad2.ngrok.io/apartment/hood/${payload.hoodId}`)
+        // todo hood set as url param
+        const baseUrl = 'https://yad2.ngrok.io/apartment/hood';
+        const maxPriceQueryParam = getters.maxPrice
+          ? `price=$lte_${getters.maxPrice}`
+          : '';
+
+        axios.get(`${baseUrl}/${payload.hoodId}?${maxPriceQueryParam}`)
           .then((response) => {
             commit('setApartments', { apartments: response.data });
           });
       } catch (e) {
-        // todo error codes enum
         commit('setApartments', { error: 'fetch failed' });
       }
     },
@@ -99,6 +116,7 @@ export default new Vuex.Store({
     apartments: (state) => state.apartments,
     selectedCity: (state) => state.selectedCity,
     selectedHood: (state) => state.selectedHood,
+    maxPrice: (state) => state.maxPrice,
   },
 
 });
