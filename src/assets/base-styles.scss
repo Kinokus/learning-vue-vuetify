@@ -9,6 +9,23 @@ label {
   }
 }
 
+.p-absolute{
+  position: absolute !important;
+}
+
+.p-fixed{
+  position: fixed !important;
+}
+
+.p-static{
+  position: static !important;
+}
+
+
+.width-100{
+  max-width: 100%;
+}
+
 [class*="-selector"] {
   border: 1px solid gray;
 }

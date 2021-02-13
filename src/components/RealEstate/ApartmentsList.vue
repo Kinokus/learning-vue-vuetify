@@ -1,9 +1,10 @@
 <template>
   <div class="apartments-list pt-0">
-    <v-container v-if="apartments">
+    <v-container v-if="apartments" class="d-flex width-100">
       <v-data-table
           :headers="headers"
           :items="apartments"
+          class="flex-grow-1"
       >
         <template v-slot:item.price="{ item }">
           <v-chip
@@ -50,16 +51,36 @@
               class="flex align-center justify-center"
               v-bind:class="{'text--accent-1':item.floor === item.floors}">
           <span>
+
             {{ item.floor }} / {{ item.floors }}
+
           </span>
             <v-icon aria-hidden="false" v-if="item.elevator" class="text--disabled">
               mdi-elevator
             </v-icon>
           </div>
         </template>
+        <template v-slot:item.photos="{ item }">
+          <img
+              class="ma-1"
+              v-for="(img, idx) in item.photos"
+              v-on:click="showGallery(item)"
+              :src="img"
+              :key="idx"
+              width="32" height="32"
+              :alt="item">
+
+        </template>
 
       </v-data-table>
+      <LightBox
+          v-if="!!media"
+          ref="lightbox"
+          :media="media"
+      >
+      </LightBox>
     </v-container>
+
   </div>
 </template>
 
@@ -103,17 +124,24 @@ export default {
           sortable: 'true',
           value: 'floor',
         },
-        // {
-        //   text: '',
-        //   align: 'start',
-        //   sortable: 'true',
-        //   value: 'home',
-        // },
+        {
+          text: '!',
+          align: 'start',
+          sortable: 'true',
+          value: 'photos',
+        },
       ],
+      media: null,
+      showLightbox: false,
     };
   },
+  comments: {},
   computed:
       mapState(['apartments']),
+
+  created() {
+    this.$refs.lightbox.closeLightBox();
+  },
 
   methods: {
     getColorClass(apartment) {
@@ -138,6 +166,17 @@ export default {
       ${apartment.coordinates.latitude},${apartment.coordinates.longitude}
       `;
     },
+    showGallery(apartment) {
+      this.media = apartment.photos.map((ph) => ({ // For image
+        thumb: ph,
+        src: ph,
+      }));
+
+      this.$refs.lightbox.showImage(0);
+    },
+    hideLightbox() {
+      this.$refs.lightbox.closeLightBox();
+    },
   },
 
   name: 'ApartmentsList',
@@ -146,6 +185,7 @@ export default {
 
 <style scoped>
 @import "../../assets/customColors.scss";
+@import "../../assets/base-styles.scss";
 
 .v-data-table > .v-data-table__wrapper > table > tbody > tr > td {
   height: 36px !important;

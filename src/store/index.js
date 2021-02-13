@@ -13,6 +13,8 @@ export default new Vuex.Store({
     apartments: [],
 
     maxPrice: null,
+    minRooms: null,
+    notMerchant: null,
 
     selectedCity: null,
     selectedHood: null,
@@ -64,6 +66,20 @@ export default new Vuex.Store({
       }
       state.maxPrice = payload.maxPrice;
     },
+    setMinRooms(state, payload) {
+      if (payload.error) {
+        state.errors.push(payload.error);
+        return;
+      }
+      state.minRooms = payload.minRooms;
+    },
+    setNotMerchant(state, payload) {
+      if (payload.error) {
+        state.errors.push(payload.error);
+        return;
+      }
+      state.notMerchant = payload.notMerchant;
+    },
 
   },
   actions: {
@@ -100,8 +116,15 @@ export default new Vuex.Store({
         const maxPriceQueryParam = getters.maxPrice
           ? `price=$lte_${getters.maxPrice}`
           : '';
+        const minRoomsQueryParam = getters.minRooms
+          ? `rooms=$gte_${getters.minRooms}`
+          : '';
 
-        axios.get(`${baseUrl}/${payload.hoodId}?${maxPriceQueryParam}`)
+        const notMerchantQueryParam = getters.notMerchant
+          ? `merchant=$ne_${getters.notMerchant}`
+          : '';
+
+        axios.get(`${baseUrl}/${payload.hoodId}?${maxPriceQueryParam}&${minRoomsQueryParam}&${notMerchantQueryParam}`)
           .then((response) => {
             commit('setApartments', { apartments: response.data });
           });
@@ -118,6 +141,8 @@ export default new Vuex.Store({
     selectedCity: (state) => state.selectedCity,
     selectedHood: (state) => state.selectedHood,
     maxPrice: (state) => state.maxPrice,
+    minRooms: (state) => state.minRooms,
+    notMerchant: (state) => state.notMerchant,
   },
 
 });
